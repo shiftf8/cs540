@@ -60,11 +60,13 @@ int main() {
 	//Loading array of desired zips for third function
 	unsigned zipList[2] = {91350, 91411};
 	//Loading up Time structs for testing
-	Time t1 = {5, false, 1, 15};
-	Time t2 = {0, 0, 12, 00};
+	Time t1 = {0, false, 12, 1};
+	Time t2 = {0, 0, 12, 0};
 	Time t3 = {4, true, 5, 30};
-	Time t4 = {1, false, 11, 0};
-	Time t5 = {6, 1, 9, 1};
+	Time t4 = {1, false, 11, 60}; //Should return false time input
+	Time t5 = {7, 1, 9, 1}; //Should return false time input
+	Time t6 = {0, 0, 12, 0};
+
 /*
 	//Testing Address functions
 	//First function
@@ -78,10 +80,18 @@ int main() {
 	//Third function
 	show(addyList, 7, zipList, 2);
 	cout << "\\/\\_[=]" << endl;
-*/	
+	
 	//Testing Time functions
 	//Fourth function
 	show(t2);
+	cout << "\\/\\_[=]" << endl;
+	
+	//Fifth function
+	cout << ok(t2) << endl;
+	cout << "\\/\\_[=]" << endl;
+*/
+	//Sixth function
+	cout << compare(t1, t2) << endl;
 	cout << "\\/\\_[=]" << endl;
 	
 	cout << endl;
@@ -116,7 +126,7 @@ void show( const Address address[], unsigned addressElements, const unsigned des
 	}
 } //show( const Address address[], unsigned addressElements, const unsigned desiredZip[], unsigned desiredZipElements )
 
-string convertDayToString(const Time &time) {
+string convertDayToString(const Time &time){
 	const string days[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 	
 	return days[time.day];
@@ -129,3 +139,33 @@ void show( const Time & time ){
 	if (time.pm == 0) cout << "AM" << endl;
 	else cout << "PM" << endl;
 } //show( const Time & time )
+
+bool ok( const Time & time ){
+	if ((time.day < 0) || (time.day >= 7)) return false;
+	if ((time.hour < 1) || (time.hour >= 13)) return false;
+	if ((time.minute < 0) || (time.minute >= 60)) return false;
+	return true;
+} //bool ok( const Time & time )
+
+int compare( const Time & time0, const Time & time1 ){
+	string msg = "Time/s incorrectly entered.";
+	
+	if ((!ok(time0)) || (!ok(time1))){
+		//cerr <<endl <<"Fatal error: " <<msg <<endl;
+		//exit( EXIT_FAILURE );
+		
+		cout << endl << "Fatal error: " << msg << endl;
+	}
+	
+	if (time0.day < time1.day) return -1;
+	else if ((time0.day == time1.day) && (time0.pm == false) && (time1.pm == true)) return -1;
+	else if ((time0.day == time1.day) && (time0.pm == time1.pm) && (time0.hour < time1.hour)) return -1;
+	else if ((time0.day == time1.day) && (time0.pm == time1.pm) && (time0.hour == time1.hour) && (time0.minute < time1.minute)) return -1;
+	else if ((time0.day == time1.day) && (time0.pm == time1.pm) && (time0.hour == time1.hour) && (time0.minute == time1.minute)) return 0;
+	else return 1;
+	return 9999; //bogus return in case of error
+} //int compare( const Time & time0, const Time & time1 )
+
+void input( Time & time ){
+	
+} //void input( Time & time )

@@ -68,7 +68,7 @@ void input( unsigned a[], unsigned elements ){
 				cout << inputStr << " / " << x << endl;
 				*/
 				
-				if (isNumber(inputStr)) {
+				if (isNumber(inputStr)){
 						stringstream(inputStr) >> userInt;
 						a[i] = userInt;
 				}	else die(nan);
@@ -242,6 +242,6 @@ unsigned g( const unsigned a[], unsigned elements ){
 				if ((countEqualState > 0) && (countGreaterThanState == 0) && (countLessThanState > 0)) return 6;
 				if ((countGreaterThanState > 0) && (countEqualState > 0) && (countLessThanState > 0)) return 7;
 
-				return 99999; //bogus return
+				return 9999; //bogus return in case of error
 		}
 }
