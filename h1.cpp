@@ -187,7 +187,6 @@ int convertStringToDay(const string &day){
 
 void input( Time & time ){
 	string inputStr;
-	string day, amPM;
 	unsigned found, hour, minute;
 	
 	//Wednesday  7:05 PM
