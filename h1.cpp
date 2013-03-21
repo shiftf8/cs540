@@ -3,8 +3,7 @@
 //Hart
 //03/07/13
 
-#include <cstdio>
-#include <iomanip>
+#include <cctype>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -37,6 +36,7 @@ struct Time{
 	unsigned minute;	//	in [0, 59]
 };	//	struct Time
 
+bool die( const string & msg );
 void show( const Address & address );
 void show( const Address address[], unsigned elements, unsigned desiredZip );
 void show( const Address address[], unsigned addressElements, const unsigned desiredZip[], unsigned desiredZipElements );
@@ -44,6 +44,7 @@ string convertDayToString(const Time &time); //my own function
 void show( const Time & time );
 bool ok( const Time & time );
 int compare( const Time & time0, const Time & time1 );
+int convertStringToDay(const string &day); //my own function
 void input( Time & time );
 
 int main() {
@@ -66,37 +67,50 @@ int main() {
 	Time t4 = {1, false, 11, 60}; //Should return false time input
 	Time t5 = {7, 1, 9, 1}; //Should return false time input
 	Time t6 = {0, 0, 12, 0};
+	Time t7;
 
 /*
 	//Testing Address functions
 	//First function
 	show(a1);
-	cout << "\\/\\_[=]" << endl;
+	cout << "]===[" << endl;
 	
 	//Second function
 	show(addyList, 7, 91350);
-	cout << "\\/\\_[=]" << endl;
+	cout << "]===[" << endl;
 	
 	//Third function
 	show(addyList, 7, zipList, 2);
-	cout << "\\/\\_[=]" << endl;
+	cout << "]===[" << endl;
 	
 	//Testing Time functions
 	//Fourth function
 	show(t2);
-	cout << "\\/\\_[=]" << endl;
+	cout << "]===[" << endl;
 	
 	//Fifth function
 	cout << ok(t2) << endl;
-	cout << "\\/\\_[=]" << endl;
-*/
+	cout << "]===[" << endl;
+
 	//Sixth function
 	cout << compare(t1, t2) << endl;
-	cout << "\\/\\_[=]" << endl;
-	
+	cout << "]===[" << endl;
+*/	
+	//Seventh function
+	input(t7);
+	show(t7);
+	cout << "]===[" << endl;
+
 	cout << endl;
 	return 0;
 } //main
+
+bool die( const string & msg ){
+		//cerr <<endl <<"Fatal error: " <<msg <<endl;
+		//exit( EXIT_FAILURE );
+		
+		cout << endl << "Fatal error: " << msg << endl;
+}
 
 void show( const Address & address ) {
 	cout << address.number << " " << address.street << " " << address.suffix << endl
@@ -135,27 +149,21 @@ string convertDayToString(const Time &time){
 void show( const Time & time ){
 	cout << convertDayToString(time) << " " << time.hour << ":";
 	if (time.minute == 0) cout << "00" << " ";
+	else if (time.minute < 10) cout << "0" << time.minute << " ";
 	else cout << time.minute << " ";
 	if (time.pm == 0) cout << "AM" << endl;
 	else cout << "PM" << endl;
 } //show( const Time & time )
 
 bool ok( const Time & time ){
-	if ((time.day < 0) || (time.day >= 7)) return false;
-	if ((time.hour < 1) || (time.hour >= 13)) return false;
-	if ((time.minute < 0) || (time.minute >= 60)) return false;
+	if ((time.day < 0) || (time.day > 6)) return false;
+	if ((time.hour < 1) || (time.hour > 12)) return false;
+	if ((time.minute < 0) || (time.minute > 59)) return false;
 	return true;
 } //bool ok( const Time & time )
 
 int compare( const Time & time0, const Time & time1 ){
-	string msg = "Time/s incorrectly entered.";
-	
-	if ((!ok(time0)) || (!ok(time1))){
-		//cerr <<endl <<"Fatal error: " <<msg <<endl;
-		//exit( EXIT_FAILURE );
-		
-		cout << endl << "Fatal error: " << msg << endl;
-	}
+	if ((!ok(time0)) || (!ok(time1))) die("Time/s incorrectly entered.");
 	
 	if (time0.day < time1.day) return -1;
 	else if ((time0.day == time1.day) && (time0.pm == false) && (time1.pm == true)) return -1;
@@ -166,6 +174,85 @@ int compare( const Time & time0, const Time & time1 ){
 	return 9999; //bogus return in case of error
 } //int compare( const Time & time0, const Time & time1 )
 
+int convertStringToDay(const string &day){
+	if (day == "Sunday") return 0;
+	if (day == "Monday") return 1;
+	if (day == "Tuesday") return 2;
+	if (day == "Wednesday") return 3;
+	if (day == "Thursday") return 4;
+	if (day == "Friday") return 5;
+	if (day == "Saturday") return 6;
+	return 9999; //bogus return in case of error
+} //convertStringToDay(const string &day)
+
 void input( Time & time ){
+	string inputStr;
+	string day, amPM;
+	unsigned found, hour, minute;
 	
+	//Wednesday  7:05 PM
+	cin >> inputStr;
+	if (convertStringToDay(inputStr) != 9999) time.day = convertStringToDay(inputStr);
+	else die("Invalid day entry.");
+	//cout << convertStringToDay(inputStr) << endl;
+	
+	cin >> inputStr;
+	found = inputStr.find(":");
+	//cout << found << endl;
+	if (found == 2){
+		if (isdigit(inputStr[0]) && isdigit(inputStr[1])){
+				stringstream(inputStr.substr(0, 2)) >> hour;
+				if ((hour > 0) && (hour < 13)) time.hour =  hour;
+				else die("Hour entry outside of hour range.");
+		} else die("Invalid hour entry.");
+		if (isdigit(inputStr[3]) && isdigit(inputStr[4])){
+				stringstream(inputStr.substr(3, 2)) >> minute;
+				if ((minute >= 0) && (minute <= 59)) time.minute = minute;
+				else die("Minute entry outside of minute range.");
+		} else die("Invalid minute entry.");
+	}
+	else if (found == 1){
+		if (isdigit(inputStr[0])){
+			stringstream(inputStr.substr(0, 1)) >> hour;
+			time.hour =  hour;
+		} else die("Invalid hour entry.");
+		if (isdigit(inputStr[2]) && isdigit(inputStr[3])){
+				stringstream(inputStr.substr(2, 2)) >> minute;
+				if ((minute >= 0) && (minute <= 59)) time.minute = minute;
+				else die("Minute entry outside of minute range.");
+		} else die("Invalid minute entry.");
+	} else die("Invalid time entry.");
+	//cout << hour << endl;
+	//cout << minute << endl;
+	
+	cin >> inputStr;
+	if (inputStr == "AM") time.pm = false;
+	else if (inputStr == "PM") time.pm = true;
+	else die("Invalid AM/PM entry.");
+
+	//cout << time.day << " " << time.hour << ":" << time.minute << " " << time.pm << endl;
+											
+/*	getline (cin, inputStr); //this method poses a lot of challenges. may have come out to fewer lines but the simple method above did the trick just fine by me.
+	
+	found = inputStr.find(" ");
+	day = inputStr.substr(0, found);
+	//cout << day << endl;
+	found = inputStr.find_first_of("123456789");
+	timeInput = inputStr.substr(found, inputStr.length());
+	found = timeInput.find(":");
+	//cout << found << endl;
+	if (found == 2){
+		stringstream(timeInput.substr(0, 2)) >> hour;
+		stringstream(timeInput.substr(2, 2)) >> minute;
+	} else {
+		stringstream(timeInput.substr(0, 1)) >> hour;
+		stringstream(timeInput.substr(2, 2)) >> minute;
+	}
+	cout << hour << endl;
+	cout << minute << endl;
+	found = timeInput.find(" ");
+	if (timeInput.find("AM")) amPM = "AM";
+	
+	//cout << amPM << endl;
+*/	
 } //void input( Time & time )
