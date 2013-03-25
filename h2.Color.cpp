@@ -1,7 +1,7 @@
 //Lamog, Rob
 //h2.Color
 //Hart
-//03/28/13
+//04/11/13
 
 #include <math.h>
 #include <iostream>
@@ -10,7 +10,7 @@ using namespace std;
 
 class Color{
     public:
-		Color( unsigned red = 0, unsigned green = 0, unsigned blue = 0 ); // ctor
+    	Color( unsigned red = 0, unsigned green = 0, unsigned blue = 0 ); // ctor
 		unsigned getRed() const; // accessor
 		unsigned getGreen() const; // accessor
 		unsigned getBlue() const; // accessor
@@ -29,39 +29,33 @@ Color mixture( const Color & color0, const Color & color1, double weight = 0.5 )
 bool die( const string & msg );
 
 int main(){
-	Color c0;
-	Color c1(1, 255, 0);
-	//c1.setRed(-1);
-	//c1.setGreen(256);
-	c1.setBlue(33);
-	cout << "]===[" << endl;
-	
-	cout << c1.getRed() << endl;
-	cout << c0.getRed() << endl;
-	cout << "]===[" << endl;
-
-	c1.output();
-	cout << "]===[" << endl;
-
-	Color c2(0, 2, 0);
-	Color c3(0, 0, 255);
-	mixture(c2, c3).output(); //<0, 128, 128>
-	cout << "]===[" << endl;
 
 	return 0;
 } //main()
 
 bool die( const string & msg ){
-		//cerr <<endl <<"Fatal error: " <<msg <<endl;
-		//exit( EXIT_FAILURE );
+		cerr <<endl <<"Fatal error: " <<msg <<endl;
+		exit( EXIT_FAILURE );
 		
-		cout << endl << "Fatal error: " << msg << endl;
+		//cout << endl << "Fatal error: " << msg << endl;
 } //die( const string & msg )
 
 Color::Color(unsigned red, unsigned green, unsigned blue){
 	setRed(red);
 	setGreen(green);
 	setBlue(blue);
+}
+
+unsigned Color::getRed() const{
+	return red;
+}
+
+unsigned Color::getGreen() const{
+	return green;
+}
+
+unsigned Color::getBlue() const{
+	return blue;
 }
 
 Color &Color::setRed(unsigned red){
@@ -83,18 +77,6 @@ Color &Color::setBlue(unsigned blue){
 		this->blue = blue;
 		return *this;
 	} else die("Blue out of range [0, 255]");
-}
-
-unsigned Color::getRed() const{
-	return red;
-}
-
-unsigned Color::getGreen() const{
-	return green;
-}
-
-unsigned Color::getBlue() const{
-	return blue;
 }
 
 const Color &Color::output() const{
