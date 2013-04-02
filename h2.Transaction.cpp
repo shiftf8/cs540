@@ -3,7 +3,6 @@
 //Hart
 //04/11/13
 
-#include <cmath>
 #include <iostream>
 #include <string>
 using namespace std;
@@ -33,23 +32,9 @@ class Transaction{
 void report( const Transaction transaction[], unsigned elements );
 
 int main(){
-	Transaction mon(1, 1, 1);
-	cout << mon.getSubtotal() << endl;
-	cout << mon.getTotal() << endl;
-	cout << "]===[" << endl;
-
-	Transaction march[] = {Transaction(1, 2, 3), Transaction(10, 1), Transaction(12), Transaction(0, 2, 5)};
-/*	cout << march[0].getSubtotal() << endl;
-	cout << march[1].getSubtotal() << endl;
-	cout << march[2].getSubtotal() << endl;
-	cout << march[3].getSubtotal() << endl;
-	cout << march[0].getSubtotal() + march[1].getSubtotal() + march[2].getSubtotal() + march[3].getSubtotal() << endl;
-*/
-	report( march, 4);
-	cout << "]===[" << endl;
 
 	return 0;
-}
+} //main()
 
 Transaction::Transaction( unsigned doughnuts, unsigned carburetors, unsigned racquets ){
 	this->doughnuts = doughnuts;
@@ -73,7 +58,7 @@ double Transaction::getSubtotal() const{
 	return (getDoughnuts() * eachDoughnut) + (getCarburetors() * eachCarburetor) + (getRacquets() * eachRacquet);
 }
 
-double Transaction::getTotal() const{
+double Transaction::getTotal() const{ //???
 	return (getDoughnuts() * eachDoughnut * salesTax) + (getCarburetors() * eachCarburetor * salesTax) + (getRacquets() * eachRacquet);
 }
 
@@ -81,8 +66,8 @@ void report( const Transaction transaction[], unsigned elements ){
 	unsigned reportDoughnuts = 0;
 	unsigned reportCarburetors = 0;
 	unsigned reportRacquets = 0;
-	double reportSubtotal = 0;
-	double reportTotal = 0;
+	double reportSubtotal = 0.0;
+	double reportTotal = 0.0;
 		
 	for (int i = 0; i < elements; i++){
 		reportDoughnuts += transaction[i].getDoughnuts();
