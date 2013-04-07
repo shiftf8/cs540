@@ -62,6 +62,7 @@ const Rational & Rational::output() const{
 	else cout << getNumerator() << " / " << getDenominator();
 	
 	cout << endl;
+    return *this;
 }
 
 Rational Rational::add( const Rational & other ) const{

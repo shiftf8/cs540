@@ -58,7 +58,7 @@ double Transaction::getSubtotal() const{
 	return (getDoughnuts() * eachDoughnut) + (getCarburetors() * eachCarburetor) + (getRacquets() * eachRacquet);
 }
 
-double Transaction::getTotal() const{ //???
+double Transaction::getTotal() const{
 	return (getDoughnuts() * eachDoughnut * salesTax) + (getCarburetors() * eachCarburetor * salesTax) + (getRacquets() * eachRacquet);
 }
 
