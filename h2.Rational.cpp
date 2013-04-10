@@ -53,7 +53,7 @@ unsigned long long Rational::getDenominator() const{
 }
 
 double Rational::getFloatingValue() const{
-	return static_cast<double>(numerator) / static_cast<double>(denominator);
+    return static_cast<double>(getNumerator()) / static_cast<double>(getDenominator());
 }
 
 const Rational & Rational::output() const{

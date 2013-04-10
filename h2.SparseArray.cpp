@@ -47,7 +47,7 @@ unsigned SparseArray::get( unsigned long long index ){
 
 SparseArray &SparseArray::set( unsigned long long index, unsigned value ){
 	if (index > 1e17) die("Number is not less than 1e17.");
-	else if (nonZeroElements > 20) die("There are already 20 nonzero values assigned.");
+	else if (nonZeroElements > 20) die("Cannot add another value. There are already 20 nonzero values assigned.");
 	else if ((value == 0) && (get(index))){
 		int i = 0;
 		for (i; i < 20; i++){
@@ -66,11 +66,11 @@ SparseArray &SparseArray::set( unsigned long long index, unsigned value ){
 			}
 			this->valueArr[i] = value;
 			//cout << index << " / " << value << " resetValue " << get(index) << endl;			
-		} else if (nonZeroElements >= 20) die("There are already 20 nonzero values assigned.");
+		} else if (nonZeroElements >= 20) die("Cannot add another value. There are already 20 nonzero values assigned.");
 		else {
 			int i = 0;
 			for (i; i < 20; i++){
-				if (valueArr[i] == 0) break; //Edge case, it's possible for indexArr[i] to hold a value while valueArr[i] does not. There fore utilizing valueArr[i] to check for first zero occurrence to set values, keeping arrays parallel.
+				if (valueArr[i] == 0) break; //Edge case, it's possible for indexArr[i] to hold a value while valueArr[i] does not. Therefore utilizing valueArr[i] to check for first zero occurrence to set values, this keeps arrays parallel.
 			}
 			//cout << "NonZeroes - " << nonZeroElements << " indexArr[" << i << "]" << endl; //100 000 000 000 000 000
 			this->indexArr[i] = index;
