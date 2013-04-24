@@ -26,16 +26,18 @@ int main() {
 } //main()
 
 bool die( const string & msg ){
-		cerr <<endl <<"Fatal error: " <<msg <<endl;
-		exit( EXIT_FAILURE );
+		//cerr <<endl <<"Fatal error: " <<msg <<endl;
+		//exit( EXIT_FAILURE );
 		
-		//cout << endl << "Fatal error: " << msg << endl;
+		cout << endl << "Fatal error: " << msg << endl << endl;
 } //die( const string & msg )
 
 SparseArray::SparseArray(){
 	this->nonZeroElements = 0;
-	this->indexArr = {0};
-	this->valueArr = {0};
+	this->indexArr[0] = 0;
+	this->valueArr[0] = 0;
+//	this->indexArr = {0}; //not sure why this works in sourceLair and not on imac or in visual studio
+//	this->valueArr = {0};
 }
 
 unsigned SparseArray::get( unsigned long long index ){	
@@ -48,8 +50,7 @@ unsigned SparseArray::get( unsigned long long index ){
 
 SparseArray &SparseArray::set( unsigned long long index, unsigned value ){
 	if (index > 1e17) die("Number is not less than 1e17.");
-	else if (nonZeroElements > 20) die("Cannot add another value. There are already 20 nonzero values assigned.");
-	else if ((value == 0) && (get(index))){
+	if ((value == 0) && (get(index))){
 		int i = 0;
 		for (i; i < 20; i++){
 			if (indexArr[i] == index) break;
@@ -58,30 +59,27 @@ SparseArray &SparseArray::set( unsigned long long index, unsigned value ){
 		this->indexArr[i] = 0;
 		this->valueArr[i] = 0;
 		if (nonZeroElements != 0) this->nonZeroElements--;
-		//cout << index << " / " << value << " setZero " << get(index) << endl;			
-	} else {
-		if (get(index)){
-			int i = 0;
-			for (i; i < 20; i++){
-				if (indexArr[i] == index) break;
-			}
-			this->valueArr[i] = value;
-			//cout << index << " / " << value << " resetValue " << get(index) << endl;			
-		} else if (nonZeroElements >= 20) die("Cannot add another value. There are already 20 nonzero values assigned.");
-		else {
-			int i = 0;
-			for (i; i < 20; i++){
-				if (valueArr[i] == 0) break; //Edge case, it's possible for indexArr[i] to hold a value while valueArr[i] does not. Therefore utilizing valueArr[i] to check for first zero occurrence to set values, this keeps arrays parallel.
-			}
-			//cout << "NonZeroes - " << nonZeroElements << " indexArr[" << i << "]" << endl; //100 000 000 000 000 000
-			this->indexArr[i] = index;
-			//cout << index << endl;
-			this->valueArr[i] = value;
-			//cout << value << endl; //1 000 000 000 002
-			if (get(index)) this->nonZeroElements++;
-			//cout << index << " / " << value << " setIndex/Value " << "NonZeroes Now = " << nonZeroElements << " -- get(index) returns " << get(index) << endl << endl;			
-		}
+		//cout << "Found Index to Zero: " << index << " / " << value << " setZero " << get(index) << " -- NonZeroes Now = " << nonZeroElements << endl;
+
+		return *this;
 	}
-	
+	if (get(index)){
+		int i = 0;
+		for (i; i < 20; i++){
+			if (indexArr[i] == index) break;
+		}
+		this->valueArr[i] = value;
+		//cout << "Found Index to Change: " << index << " / " << value << " resetValue " << get(index) << " -- NonZeroes Now = " << nonZeroElements << endl;			
+
+		return *this;
+	}
+	if (nonZeroElements >= 20) die("Cannot add another value. There are already 20 nonzero values assigned.");
+	this->indexArr[nonZeroElements] = index;
+	//cout << index << endl;
+	this->valueArr[nonZeroElements] = value;
+	//cout << value << endl; //1 000 000 000 002
+	if (get(index)) this->nonZeroElements++;
+	//cout << index << " / " << value << " setIndex/Value " << "NonZeroes Now = " << nonZeroElements << " -- get(index) returns " << get(index) << endl << endl;
+
 	return *this;
 }
