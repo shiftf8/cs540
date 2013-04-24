@@ -4,6 +4,7 @@
 //04/11/13
 
 #include <iostream>
+#include <string>
 using namespace std;
 
 class SparseArray{

@@ -4,3 +4,4 @@
 {"ts":1365589666963,"patch":[[{"diffs":[[0,"ents > 20) die(\""],[1,"Cannot add another value. "],[0,"There are alread"]],"start1":1158,"start2":1158,"length1":32,"length2":58}]],"length":2675,"saved":false}
 {"ts":1365589710939,"patch":[[{"diffs":[[0,"0) die(\""],[1,"Cannot add another value. "],[0,"There ar"]],"start1":1860,"start2":1860,"length1":16,"length2":42}]],"length":2701,"saved":false}
 {"ts":1365589762567,"patch":[[{"diffs":[[0,"ues,"],[1," this"],[0," keep"],[-1,"ing"],[1,"s"],[0," arr"]],"start1":2188,"start2":2188,"length1":16,"length2":19}]],"length":2704,"saved":false}
+{"contributors":[],"silentsave":false,"ts":1366827254153,"patch":[[{"diffs":[[0,"stream>\n"],[1,"#include <string>\n"],[0,"using na"]],"start1":61,"start2":61,"length1":16,"length2":34}]],"length":2722,"saved":false}
