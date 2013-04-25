@@ -4,7 +4,7 @@
 //04/11/13
 
 #include <iostream>
-#include <string>
+#include <string> //seems sourceLair isn't picky about requiring this include. =\ must remember to properly set includes and compile code in another environment.
 using namespace std;
 
 class SparseArray{
@@ -21,8 +21,48 @@ class SparseArray{
 bool die( const string & msg );
 
 int main() {
-
-    return 0;
+	SparseArray a;
+	
+	unsigned long long index = 1;
+	for( unsigned i = 0; i <= 20; i++, index *= 4 ){
+		//cout << i << " - " << index << endl;
+		a.set( index, i );
+	}
+	
+	cout << endl;
+	
+//	cout << a.get(1099511627776) << endl << endl;
+	
+	unsigned total = 0;
+	index = 1;
+	for( unsigned i = 0; i <= 40; i++, index *= 2 )
+		total += a.get(index);
+	cout <<total;
+/*	
+	cout << endl << endl;
+/*
+	int t = 0;
+	for(int i = 0; i <= 20; i++){
+		t += i;
+		cout << t << " / " << i << endl;
+	}
+	
+	cout << endl;
+/*
+	
+	//a.set(9999, 1), cout << endl << endl;
+	
+	a.set(64, 0).set(16777216, 0), cout << endl;
+	
+	a.set(16, 33);
+	cout << "get(16) " << a.get(16) << endl << endl;
+	
+	a.set(9871234, 13).set(1, 17).set(1, 18).set(1, 0), cout << endl;
+	a.set(19, 3), cout << endl;
+	cout << "get(19) " << a.get(19) << " -- get(1) " << a.get(1) << " -- get(3) " << a.get(3) << " -- get(4) " << a.get(4) << endl;
+*/	
+	cout << endl;
+	return 0;
 } //main()
 
 bool die( const string & msg ){
@@ -36,6 +76,8 @@ SparseArray::SparseArray(){
 	this->nonZeroElements = 0;
 	this->indexArr[0] = 0;
 	this->valueArr[0] = 0;
+//	this->indexArr = {0}; //not sure why this works in sourceLair and not on imac or in visual studio
+//	this->valueArr = {0};
 }
 
 unsigned SparseArray::get( unsigned long long index ){	
@@ -62,7 +104,7 @@ SparseArray &SparseArray::set( unsigned long long index, unsigned value ){
 			this->valueArr[i] = this->valueArr[i + 1];
 		}
 		if (nonZeroElements != 0) this->nonZeroElements--;
-		//cout << "Found Index to Zero: " << index << " / " << value << " setZero " << get(index) << " -- NonZeroes Now = " << nonZeroElements << endl;
+		//cout << "Found Index to Zero: " << index << " / " << value << " -- NonZeroes Now = " << nonZeroElements << endl;
 
 		return *this;
 	}
@@ -80,7 +122,7 @@ SparseArray &SparseArray::set( unsigned long long index, unsigned value ){
 	this->indexArr[nonZeroElements] = index;
 	this->valueArr[nonZeroElements] = value;
 	if (get(index)) this->nonZeroElements++;
-	//cout << index << " / " << value << " setIndex/Value " << "NonZeroes Now = " << nonZeroElements << " -- get(" << index << ") returns " << get(index) << endl << endl;
+	//cout << index << " / " << value << " setIndex/Value " << "NonZeroes Now = " << nonZeroElements << " -- get(" << index << ") returns " << get(index) << endl;
 
 	return *this;
 }
