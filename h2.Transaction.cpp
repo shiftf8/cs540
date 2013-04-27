@@ -9,6 +9,11 @@ using namespace std;
 
 class Transaction{
     public:
+		static const double eachDoughnut = .4;
+		static const double eachCarburetor = 200;
+		static const double eachRacquet = 75;
+		static const double salesTax = 1.09;
+
 		Transaction( unsigned doughnuts, unsigned carburetors = 0, unsigned racquets = 0 );
 		unsigned getDoughnuts() const;  // return the number of doughnuts purchased in this transaction
 		unsigned getCarburetors() const;  // return the number of carburetors purchased in this transaction
@@ -17,11 +22,6 @@ class Transaction{
 		double getTotal() const;  // return the total cost of this purchase, including sales tax
 	
 	private:
-		static const double eachDoughnut = .4;
-		static const double eachCarburetor = 200;
-		static const double eachRacquet = 75;
-		static const double salesTax = 1.09;
-	
 		unsigned doughnuts;
 		unsigned carburetors;
 		unsigned racquets;
@@ -32,6 +32,20 @@ class Transaction{
 void report( const Transaction transaction[], unsigned elements );
 
 int main(){
+	Transaction mon(1, 1, 1);
+	cout << mon.getSubtotal() << endl;
+	cout << mon.getTotal() << endl;
+	cout << endl;
+
+	Transaction march[] = {Transaction(1, 2, 3), Transaction(10, 1), Transaction(12), Transaction(0, 2, 5)};
+/*	cout << march[0].getSubtotal() << endl;
+	cout << march[1].getSubtotal() << endl;
+	cout << march[2].getSubtotal() << endl;
+	cout << march[3].getSubtotal() << endl;
+	cout << march[0].getSubtotal() + march[1].getSubtotal() + march[2].getSubtotal() + march[3].getSubtotal() << endl;
+*/
+	report(march, 4);
+	cout << endl;
 
 	return 0;
 } //main()

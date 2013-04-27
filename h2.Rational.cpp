@@ -4,6 +4,7 @@
 //04/11/13
 
 #include <iostream>
+#include <string>
 using namespace std;
 
 class Rational{
@@ -25,15 +26,27 @@ class Rational{
 bool die( const string & msg );
 
 int main(){
-
+	cout << Rational(4, 12).getDenominator() << endl;
+	cout << Rational(4668, 47580).getDenominator() << endl;
+	cout << Rational(4, 12).getFloatingValue() << endl;
+	
+	Rational(5, 1).output();
+	Rational(0, 1).output();
+	Rational(5, 2).output();
+	Rational(4, 12).output();
+	Rational(50, 10).output();
+	
+	Rational(1, 2).add(Rational(2, 3)).output();
+	Rational(1, 2).add(Rational(1, 2)).output();
+	
 	return 0;
 } //main()
 
 bool die( const string & msg ){
-		cerr <<endl <<"Fatal error: " <<msg <<endl;
-		exit( EXIT_FAILURE );
+		//cerr <<endl <<"Fatal error: " <<msg <<endl;
+		//exit( EXIT_FAILURE );
 		
-		//cout << endl << "Fatal error: " << msg << endl;
+		cout << endl << "Fatal error: " << msg << endl;
 } //die( const string & msg )
 
 Rational::Rational( unsigned long long numerator, unsigned long long denominator ){
@@ -53,7 +66,7 @@ unsigned long long Rational::getDenominator() const{
 }
 
 double Rational::getFloatingValue() const{
-    return static_cast<double>(getNumerator()) / static_cast<double>(getDenominator());
+	return static_cast<double>(getNumerator()) / getDenominator();
 }
 
 const Rational & Rational::output() const{
@@ -62,7 +75,7 @@ const Rational & Rational::output() const{
 	else cout << getNumerator() << " / " << getDenominator();
 	
 	cout << endl;
-    return *this;
+	return *this;
 }
 
 Rational Rational::add( const Rational & other ) const{
