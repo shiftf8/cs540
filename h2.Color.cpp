@@ -29,15 +29,33 @@ Color mixture( const Color & color0, const Color & color1, double weight = 0.5 )
 bool die( const string & msg );
 
 int main(){
+	Color c0;
+	Color c1(1, 255, 0);
+	//c1.setRed(-1);
+	//c1.setGreen(256);
+	c1.setBlue(33);
+	cout << endl;
+	
+	cout << c1.getRed() << endl;
+	cout << c0.getRed() << endl;
+	cout << endl;
+
+	c1.output();
+	cout << endl;
+
+	Color c2(0, 2, 0);
+	Color c3(0, 0, 255);
+	mixture(c2, c3).output(); //<0, 128, 128>
+	cout << endl;
 
 	return 0;
 } //main()
 
 bool die( const string & msg ){
-		cerr <<endl <<"Fatal error: " <<msg <<endl;
-		exit( EXIT_FAILURE );
+		//cerr <<endl <<"Fatal error: " <<msg <<endl;
+		//exit( EXIT_FAILURE );
 		
-		//cout << endl << "Fatal error: " << msg << endl;
+		cout << endl << "Fatal error: " << msg << endl;
 } //die( const string & msg )
 
 Color::Color(unsigned red, unsigned green, unsigned blue){
@@ -59,21 +77,21 @@ unsigned Color::getBlue() const{
 }
 
 Color &Color::setRed(unsigned red){
-	if (0 <= red && red < 256){
+	if (red < 256){
 		this->red = red;
 		return *this;
 	} else die("Red out of range [0, 255]");
 }
 
 Color &Color::setGreen(unsigned green){
-	if (0 <= green && green < 256){
+	if (green < 256){
 		this->green = green;
 		return *this;
 	} else die("Green out of range [0, 255]");
 }
 
 Color &Color::setBlue(unsigned blue){
-	if (0 <= blue && blue < 256){
+	if (blue < 256){
 		this->blue = blue;
 		return *this;
 	} else die("Blue out of range [0, 255]");
@@ -87,6 +105,8 @@ const Color &Color::output() const{
 Color mixture( const Color & color0, const Color & color1, double weight ){
 	Color mix, temp;
 	double weighted, intpart;
+	
+	if (weight < 0 || weight > 1) die("Weight must be in range [0, 1]");
 	
 	if (color0.getRed()){
 		weighted = color0.getRed() * weight;
